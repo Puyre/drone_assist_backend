@@ -17,7 +17,7 @@ fun main() {
     Database.connect(
         "jdbc:postgresql://localhost:5432/postgres",
         driver = "org.postgresql.Driver",
-        password = "",
+        password = "Smotripotivi1",
         user = "postgres"
     )
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
