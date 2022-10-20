@@ -7,8 +7,11 @@ import com.drone.assist.features.register.configureRegisterRouting
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.util.logging.*
 import org.jetbrains.exposed.sql.Database
+import org.slf4j.event.Level
 
 fun main() {
     Database.connect(
@@ -20,6 +23,9 @@ fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         install(ContentNegotiation) {
             gson()
+        }
+        install(CallLogging){
+            level = Level.TRACE
         }
         configureLoginRouting()
         configureRegisterRouting()
