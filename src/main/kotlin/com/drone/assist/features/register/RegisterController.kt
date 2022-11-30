@@ -13,7 +13,6 @@ import java.util.UUID
 class RegisterController {
 
     suspend fun registerUser(call: ApplicationCall) {
-        println(call)
         val request = call.receive<RegisterRequest>()
 
         val user = UsersTable.get(request.login)
