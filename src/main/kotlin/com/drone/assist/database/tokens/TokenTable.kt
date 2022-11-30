@@ -8,7 +8,7 @@ object TokenTable: Table("tokens") {
 
     private val id = TokenTable.varchar("id", 50)
     private val login = TokenTable.varchar("login", 25)
-    private val token = TokenTable.varchar("token", 50)
+    private val token = TokenTable.varchar("token", 300)
 
     fun create(tokenDto: TokenDto) {
         transaction {
