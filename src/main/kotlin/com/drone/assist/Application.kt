@@ -63,4 +63,5 @@ fun Application.module() {
     configureLoginRouting()
     configureRegisterRouting()
     configureTournamentsRouting()
+    configureLoginRouting()
 }

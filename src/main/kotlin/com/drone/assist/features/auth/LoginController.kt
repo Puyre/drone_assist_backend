@@ -8,6 +8,7 @@ import com.drone.assist.database.tokens.TokenTable
 import com.drone.assist.database.users.UsersTable
 import com.drone.assist.features.register.RegisterRequest
 import com.drone.assist.features.token.JWTCredentialsProvider
+import com.drone.assist.features.token.generateTokenPair
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -25,17 +26,8 @@ class LoginController {
         if (user == null) {
             call.respond(HttpStatusCode.NotFound, "User not exists")
         } else if (user.password == request.password) {
-
-            val token =
-                JWT.create()
-                    .withAudience(JWTCredentialsProvider.audience)
-                    .withIssuer(JWTCredentialsProvider.issuer)
-                    .withClaim("username", user.login)
-                    .withExpiresAt(Date(System.currentTimeMillis() + 600000))
-                    .sign(Algorithm.HMAC256(JWTCredentialsProvider.secret))
-
-            TokenTable.create(TokenDto(id = UUID.randomUUID().toString(), token = token, login = user.login))
-            call.respond(LoginResponse(token = token))
+            val tokenPair = generateTokenPair(userLogin = user.login)
+            call.respond(LoginResponse(accessToken = tokenPair.accessToken, refreshToken = tokenPair.refreshToken))
         } else {
             call.respond(HttpStatusCode.NotFound, "User not exists")
         }

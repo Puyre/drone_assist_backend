@@ -4,6 +4,8 @@ import com.drone.assist.database.tokens.TokenDto
 import com.drone.assist.database.tokens.TokenTable
 import com.drone.assist.database.users.UserDto
 import com.drone.assist.database.users.UsersTable
+import com.drone.assist.features.auth.LoginResponse
+import com.drone.assist.features.token.generateTokenPair
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -20,10 +22,9 @@ class RegisterController {
         if (user != null) {
             call.respond(HttpStatusCode.Conflict, message = "User already exists")
         } else {
-            val token = UUID.randomUUID().toString()
-            TokenTable.create(TokenDto(id = UUID.randomUUID().toString(), login = request.login, token = token))
+            val tokenPair = generateTokenPair(userLogin = request.login)
             UsersTable.create(UserDto(login = request.login, password = request.password))
-            call.respond(RegisterResponse(token))
+            call.respond(RegisterResponse(accessToken = tokenPair.accessToken, refreshToken = tokenPair.refreshToken))
         }
     }
 }
