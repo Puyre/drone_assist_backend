@@ -5,6 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.drone.assist.features.auth.configureLoginRouting
 import com.drone.assist.features.register.configureRegisterRouting
 import com.drone.assist.features.token.JWTCredentialsProvider
+import com.drone.assist.features.token.configureAuth
+import com.drone.assist.features.token.configureTokenRouting
 import com.drone.assist.features.tournaments.configureTournamentsRouting
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
@@ -38,30 +40,10 @@ fun Application.module() {
     install(CallLogging) {
         level = Level.TRACE
     }
-    authentication {
-        jwt {
-            realm = JWTCredentialsProvider.realm
-            verifier(
-                JWT
-                    .require(Algorithm.HMAC256(JWTCredentialsProvider.secret))
-                    .withAudience(JWTCredentialsProvider.audience)
-                    .withIssuer(JWTCredentialsProvider.issuer)
-                    .build()
-            )
-            validate { credential ->
-                if (credential.payload.getClaim("username").asString() != "") {
-                    JWTPrincipal(credential.payload)
-                } else {
-                    null
-                }
-            }
-            challenge { _, _ ->
-                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired")
-            }
-        }
-    }
+    configureAuth()
     configureLoginRouting()
     configureRegisterRouting()
     configureTournamentsRouting()
     configureLoginRouting()
+    configureTokenRouting()
 }
