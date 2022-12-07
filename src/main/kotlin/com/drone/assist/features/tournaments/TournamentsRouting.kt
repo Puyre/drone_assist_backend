@@ -12,6 +12,9 @@ fun Application.configureTournamentsRouting() {
             post("/tournaments/create") {
                 registerController.createTournament(call)
             }
+            get("/tournaments/get") {
+                registerController.getTournaments(call)
+            }
         }
     }
 }
