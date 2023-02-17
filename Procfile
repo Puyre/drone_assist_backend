@@ -1,1 +1,1 @@
-web: .build/install/beer_pong/bin/beer_pong
+web: ./build/install/beer_pong/bin/beer_pong
