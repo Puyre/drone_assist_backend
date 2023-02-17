@@ -8,6 +8,8 @@ import com.drone.assist.features.token.JWTCredentialsProvider
 import com.drone.assist.features.token.configureAuth
 import com.drone.assist.features.token.configureTokenRouting
 import com.drone.assist.features.tournaments.configureTournamentsRouting
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -27,12 +29,9 @@ import org.slf4j.event.Level
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
-    Database.connect(
-        "jdbc:postgresql://localhost:5432/postgres",
-        driver = "org.postgresql.Driver",
-        password = environment.config.propertyOrNull("ktor.environment.dbPassword").toString(),
-        user = "postgres"
-    )
+    val config = HikariConfig("hikari.properties")
+    val dataSource = HikariDataSource(config)
+    Database.connect(dataSource)
     JWTCredentialsProvider.init(environment)
     install(ContentNegotiation) {
         gson()
