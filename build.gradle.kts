@@ -8,10 +8,10 @@ plugins {
     kotlin("jvm") version "1.7.10"
 }
 
-group = "com.example"
+group = "com.drone.assist"
 version = "0.0.1"
 application {
-    mainClass.set("com.example.ApplicationKt")
+    mainClass.set("com.drone.assist.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
