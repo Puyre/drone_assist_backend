@@ -1,1 +1,1 @@
-web: ./build/install/ktor-get-started-sample/bin/drone_assist_backend
+web: ./build/install/ktor-get-started-sample/bin/beer_pong
