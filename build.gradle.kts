@@ -45,3 +45,7 @@ dependencies {
 
     implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
 }
+
+tasks {
+    create("stage").dependsOn("installDist")
+}

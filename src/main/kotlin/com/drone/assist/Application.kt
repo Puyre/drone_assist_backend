@@ -24,7 +24,7 @@ import io.ktor.util.logging.*
 import org.jetbrains.exposed.sql.Database
 import org.slf4j.event.Level
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
     Database.connect(
