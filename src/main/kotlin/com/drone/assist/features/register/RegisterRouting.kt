@@ -1,15 +1,13 @@
 package com.drone.assist.features.register
 
-import com.drone.assist.features.register.RegisterController
-import io.ktor.server.routing.*
 import io.ktor.server.application.*
-import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
 
 fun Application.configureRegisterRouting() {
     val registerController = RegisterController()
     routing {
-        post("/signup") {
+        post("/register") {
             registerController.registerUser(call)
         }
     }
