@@ -24,12 +24,12 @@ class LoginController {
         val user = UsersTable.get(request.login)
 
         if (user == null) {
-            call.respond(HttpStatusCode.NotFound, "User not exists")
+            call.respond(HttpStatusCode.BadRequest, "User not exists")
         } else if (user.password == request.password) {
             val tokenPair = generateTokenPair(userLogin = user.login)
             call.respond(LoginResponse(accessToken = tokenPair.accessToken, refreshToken = tokenPair.refreshToken))
         } else {
-            call.respond(HttpStatusCode.NotFound, "User not exists")
+            call.respond(HttpStatusCode.BadRequest, "User not exists")
         }
 
     }
